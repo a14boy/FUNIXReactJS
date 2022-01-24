@@ -17,7 +17,7 @@ class App extends Component {
       <div className="App container-fluid">
         <Navbar dark color="primary">
           <div className="container">
-            <NavbarBrand href="/">Phần mềm quản lý nhân sự v1.0</NavbarBrand>
+            <NavbarBrand href="/"><h1 className='text-justify'>Phần mềm quản lý nhân sự v1.0</h1></NavbarBrand>
           </div>
         </Navbar>
         <StaffList dishes={this.state.dishes} />
