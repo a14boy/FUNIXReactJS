@@ -21,11 +21,11 @@ class StaffList extends Component {
 
   getClass(col){
     switch(col){
-      case "1": return "col-12"; break;
-      case "2": return "col-6"; break;
-      case "3": return "col-4"; break;
-      case "4": return "col-3"; break;
-      case "6": return "col-2"; break;
+      case "1": return "col-12"; 
+      case "2": return "col-6"; 
+      case "3": return "col-4"; 
+      case "4": return "col-3"; 
+      case "6": return "col-2";
       default: return "col-sm-6 col-lg-4";
     }
   }
@@ -64,7 +64,7 @@ class StaffList extends Component {
           return ( 
             <div key={dish.id} className={this.getClass(this.state.setColumn)}>
               <a href = "#selectedStaffInfo" >
-                <Card className="staffInfo" onClick={() => this.onStaffSelect(dish)}>
+                <Card className="staffInfo mb-2" onClick={() => this.onStaffSelect(dish)}>
                   <CardImg width="100%" src={dish.image} alt={dish.name} />
                     <CardTitle className="text-center">{dish.name}</CardTitle>
                 </Card> 
@@ -75,7 +75,7 @@ class StaffList extends Component {
 
       return (
         <div className="container">
-          <div className='row container'>
+          <div className='row container pt-3'>
             <p><b>Chọn số cột hiển thị: </b>
             <span>
               <select id="setColumn" onChange={this.handleSelect}> 
