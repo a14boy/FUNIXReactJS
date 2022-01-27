@@ -4,7 +4,7 @@ function RenderDish({dish}) {
         if (dish != null)
             return(
                 <div className="col-12 col-md-5 m-1">
-                    <Card>
+                    <Card id="selectedDish">
                         <CardImg top src={dish.image} alt={dish.name} />
                         <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
