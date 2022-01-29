@@ -9,14 +9,13 @@ class StaffList extends Component {
 
     this.state = {
         selectedDish: null,
-        setColumn : "0",
+        setColumn : "",
     }
     this.handleSelect = this.handleSelect.bind(this);
   }
 
   handleSelect(event){
     this.setState ({setColumn: event.target.value});
-    this.render;
   }
 
   getClass(col){
@@ -39,10 +38,10 @@ class StaffList extends Component {
           return(
               <Card id='viewStaffInfo'>
                 <div className='row'>
-                  <div className={this.getClass(this.state.setColumn)}>
+                  <div className="col-xs-12 col-sm-6 col-lg-4">
                     <CardImg top src={dish.image} alt={dish.name} />
                   </div >
-                  <CardBody className={this.getClass(this.state.setColumn)}>
+                  <CardBody className="col-xs-12 col-sm-6 col-lg-4">
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>Ngày sinh: {dateFormat(dish.doB,"dd/mm/yyyy")}</CardText>
                     <CardText>Ngày vào công ty: {dateFormat(dish.startDate,"dd/mm/yyyy")}</CardText>
