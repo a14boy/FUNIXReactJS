@@ -15,11 +15,13 @@ class App extends Component {
   render() {
     return (
       <div className="App container-fluid">
-        <Navbar dark color="primary">
-          <div className="container">
-            <NavbarBrand href="/"><h2 className='text-break'>Phần mềm quản lý nhân sự v1.0</h2></NavbarBrand>
-          </div>
-        </Navbar>
+        <div className='col-12'>
+          <Navbar dark color="primary" className="navbar-nav">
+              <NavbarBrand href="/">
+                <h3 className="nav-item">Phần mềm quản lý nhân sự v1.0</h3>
+              </NavbarBrand>   
+          </Navbar>
+        </div>
         <StaffList dishes={this.state.dishes} />
       </div>
     );

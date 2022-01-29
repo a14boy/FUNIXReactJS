@@ -21,12 +21,12 @@ class StaffList extends Component {
 
   getClass(col){
     switch(col){
-      case "1": return "col-12"; 
-      case "2": return "col-6"; 
-      case "3": return "col-4"; 
-      case "4": return "col-3"; 
-      case "6": return "col-2";
-      default: return "col-sm-6 col-lg-4";
+      case "1": return "col-12 mb-1"; 
+      case "2": return "col-6 mb-1"; 
+      case "3": return "col-4 mb-1"; 
+      case "4": return "col-3 mb-1"; 
+      case "6": return "col-2 mb-1"; 
+      default: return "col-sm-6 col-lg-4 mb-1";
     }
   }
 
@@ -39,10 +39,10 @@ class StaffList extends Component {
           return(
               <Card id='viewStaffInfo'>
                 <div className='row'>
-                  <div className="col-sm-6 col-lg-4">
+                  <div className={this.getClass(this.state.setColumn)}>
                     <CardImg top src={dish.image} alt={dish.name} />
                   </div >
-                  <CardBody className="col-sm-6 col-lg-8">
+                  <CardBody className={this.getClass(this.state.setColumn)}>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>Ngày sinh: {dateFormat(dish.doB,"dd/mm/yyyy")}</CardText>
                     <CardText>Ngày vào công ty: {dateFormat(dish.startDate,"dd/mm/yyyy")}</CardText>
@@ -75,7 +75,7 @@ class StaffList extends Component {
 
       return (
         <div className="container">
-          <div className='row container pt-3'>
+          <div className='row mt-3 ml-1'>
             <p><b>Chọn số cột hiển thị: </b>
             <span>
               <select id="setColumn" onChange={this.handleSelect}> 
