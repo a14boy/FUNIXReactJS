@@ -1,20 +1,18 @@
-import React, {Component} from 'react';
-import Main from './components/MainComponents';
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import Main from "./components/MainComponents";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
 
 class App extends Component {
-
   render() {
     return (
-      <BrowserRouter>
-        <div>
+      <div className="App">
+        <BrowserRouter>
           <Main />
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
+      </div>
     );
   }
 }
-
 
 export default App;
