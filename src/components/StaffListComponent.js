@@ -1,103 +1,40 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody,
-  CardTitle } from 'reactstrap';
-import dateFormat from 'dateformat'; 
+import React from 'react';
+import { Card, CardImg} from 'reactstrap';
 
-class StaffList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        selectedDish: null,
-        setColumn : "",
-    }
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-
-  handleSelect(event){
-    this.setState ({setColumn: event.target.value});
-  }
-
-  getClass(col){
-    switch(col){
-      case "1": return "col-12 mb-1"; 
-      case "2": return "col-6 mb-1"; 
-      case "3": return "col-4 mb-1"; 
-      case "4": return "col-3 mb-1"; 
-      case "6": return "col-2 mb-1"; 
-      default: return "col-sm-6 col-lg-4 mb-1";
-    }
-  }
-
-  onStaffSelect(dish) {
-      this.setState({ selectedStaff: dish});
-  }
-
-  renderStaffInfo(dish) {
-      if (dish != null)
-          return(
-              <Card id='viewStaffInfo'>
-                <div className='row'>
-                  <div className="col-xs-12 col-sm-6 col-lg-4">
-                    <CardImg top src={dish.image} alt={dish.name} />
-                  </div >
-                  <CardBody className="col-xs-12 col-sm-6 col-lg-4">
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>Ngày sinh: {dateFormat(dish.doB,"dd/mm/yyyy")}</CardText>
-                    <CardText>Ngày vào công ty: {dateFormat(dish.startDate,"dd/mm/yyyy")}</CardText>
-                    <CardText>Phòng ban: {dish.department.name}</CardText>
-                    <CardText>Số ngày nghỉ còn lại: {dish.annualLeave}</CardText>
-                    <CardText>Số ngày đã làm thêm: {dish.overTime}</CardText>
-                  </CardBody>
-                </div>
-              </Card>
-          );
-      else
-          return(
-              <div></div>
-          );
-  }
-
-  render() {
-      const menu = this.props.dishes.map((dish) => {
-          return ( 
-            <div key={dish.id} className={this.getClass(this.state.setColumn)}>
-              <a href = "#selectedStaffInfo" >
-                <Card className="staffInfo mb-2" onClick={() => this.onStaffSelect(dish)}>
-                  <CardImg width="100%" src={dish.image} alt={dish.name} />
-                    <CardTitle className="text-center">{dish.name}</CardTitle>
-                </Card> 
-              </a>
-            </div>
-          );
-      });
-
-      return (
-        <div className="container">
-          <div className='row mt-3 ml-1'>
-            <p><b>Chọn số cột hiển thị: </b>
-            <span>
-              <select id="setColumn" onChange={this.handleSelect}> 
-                <option value="0" defaultChecked>Tự động</option>
-                <option value="1">1 Cột</option>
-                <option value="2">2 Cột</option>
-                <option value="3">3 Cột</option>
-                <option value="4">4 Cột</option>
-                <option value="6">6 Cột</option>
-              </select>
-            </span></p>
-          </div>
-          <div className="row">
-              {menu}
-          </div>
-          <div className="row">
-            <div  className="col-12 " id="selectedStaffInfo">
-              {this.renderStaffInfo(this.state.selectedStaff)}
-            </div>
-          </div>
-        </div>
-      );
-  }
+function RenderStaffList({ dish, onClick }){
+  return (
+    <Link to={`/StaffList/${dish.id}`} >
+      <div className='col-sm-6 col-md-4 col-lg-2'>
+        <Card>
+          <CardImg width="100%" src={dish.image} alt={dish.name} />
+          <p>{dish.name}</p>
+        </Card>
+      </div>
+    </Link>
+);
 }
+const StaffList = (props) => {
+  const staffList = props.dishes.map((dish) => {
+    return (
+      <div key={dish.id} className="col-12 col-md-5 m-1">
+        <RenderStaffList dish={dish} onClick={props.onClick} />
+      </div>
+    );
+  });
+
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-12">
+                    <h3>Nhân viên</h3>
+                    <hr />
+                </div>                
+            </div>
+            <div className="row">
+                {staffList}
+            </div>
+        </div>
+    );
+};
 
 export default StaffList;
