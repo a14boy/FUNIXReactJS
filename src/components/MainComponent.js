@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import Home from "./HomeComponent";
-import Menu from "./MenuComponent";
-import DishDetail from "./DishdetailComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
-import Contact from "./ContactComponent";
-import About from "./AboutComponent";
+import StaffList from "./StaffListComponent";
+import StaffInfo from "./StaffInfoComponent";
+import Departments from "./DepartmentComponent";
+import Payrolls from "./PayrollComponent";
 import { STAFFS } from "../shared/staffs";
 import { ROLE } from "../shared/role";
 import { DEPARTMENTS } from "../shared/departments";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { DEPARTMENTS } from "../shared/departments";
 
 class Main extends Component {
   constructor(props) {
@@ -19,32 +17,23 @@ class Main extends Component {
     this.state = {
       staffs: STAFFS,
       role: ROLE,
-      deapartments: DEPARTMENTS,
+      departments: DEPARTMENTS,
     };
   }
 
   render() {
     const HomePage = () => {
-      return (
-        <Home
-          dish={this.state.dishes.filter((dish) => dish.featured)[0]}
-          promotion={this.state.promotions.filter((promo) => promo.featured)[0]}
-          leader={this.state.leaders.filter((leader) => leader.featured)[0]}
-        />
-      );
+      return <StaffList staffs={this.state.staffs} />;
     };
 
-    const DishWithId = ({ match }) => {
+    const StaffWithId = ({ match }) => {
       return (
-        <DishDetail
-          dish={
-            this.state.dishes.filter(
-              (dish) => dish.id === parseInt(match.params.dishId, 10)
+        <StaffInfo
+          staff={
+            this.state.staffs.filter(
+              (staff) => staff.id === parseInt(match.params.id, 10)
             )[0]
           }
-          comments={this.state.comments.filter(
-            (comment) => comment.dishId === parseInt(match.params.dishId, 10)
-          )}
         />
       );
     };
@@ -53,20 +42,21 @@ class Main extends Component {
       <div>
         <Header />
         <Switch>
-          <Route path="/home" component={HomePage} />
-          <Route path="/menu/:dishId" component={DishWithId} />
+          <Route path="/stafflist" component={HomePage} />
+          <Route path="/stafflist/:id" component={StaffWithId} />
           <Route
             exact
-            path="/aboutus"
-            component={() => <About leaders={this.state.leaders} />}
+            path="/payroll"
+            component={() => <Payrolls staffs={this.state.staffs} />}
           />
           <Route
             exact
-            path="/menu"
-            component={() => <Menu dishes={this.state.dishes} />}
+            path="/department"
+            component={() => (
+              <Departments departments={this.state.departments} />
+            )}
           />
-          <Route exact path="/contactus" component={() => <Contact />} />
-          <Redirect to="/home" />
+          <Redirect to="/stafflist" />
         </Switch>
         <Footer />
       </div>

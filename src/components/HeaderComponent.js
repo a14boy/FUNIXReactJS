@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand, Nav, NavbarToggler,
-  Collapse, NavItem,} from "reactstrap";
+import {
+  Navbar,
+  NavbarBrand,
+  Nav,
+  NavbarToggler,
+  Collapse,
+  NavItem,
+} from "reactstrap";
 import { NavLink } from "react-router-dom";
 
 class Header extends Component {
@@ -22,6 +28,7 @@ class Header extends Component {
   render() {
     return (
       <div>
+        <React.Fragment>
           <Navbar dark expand="md">
             <div className="container">
               <NavbarToggler onClick={this.togglerNav} />
@@ -54,6 +61,7 @@ class Header extends Component {
               </Collapse>
             </div>
           </Navbar>
+        </React.Fragment>
       </div>
     );
   }
