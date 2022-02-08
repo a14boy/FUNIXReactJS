@@ -32,7 +32,7 @@ const Payrolls = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-12">
-          <h3>Nhân viên</h3>
+          <h3>Bảng lương</h3>
           <hr />
         </div>
       </div>

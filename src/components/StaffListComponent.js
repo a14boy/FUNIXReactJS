@@ -1,32 +1,53 @@
-import React from "react";
-import { Card, CardImg, CardTitle } from "reactstrap";
+import React, { Component } from "react";
+import { Card, CardImg, CardText } from "reactstrap";
 import { Link } from "react-router-dom";
+import SearchBar from "./SearchBarComponent";
 
-const StaffList = (props) => {
-  const staffList = props.staffs.map((staff) => {
+class StaffList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchKey: "",
+    };
+  }
+
+  render() {
+    const onSubmitSearch = (key) => {
+      this.setState({ searchKey: key });
+    };
+    const staffList = this.props.staffs
+      .filter((staff) =>
+        staff.name.toLowerCase().includes(this.state.searchKey.toLowerCase())
+      )
+      .map((staff) => {
+        return (
+          <div key={staff.id} className="col-6 col-md-4 col-lg-2 mt-2">
+            <Link to={`/stafflist/${staff.id}`}>
+              <Card>
+                <CardImg width="100%" src={staff.image} alt={staff.name} />
+                <CardText className="text-center">{staff.name}</CardText>
+              </Card>
+            </Link>
+          </div>
+        );
+      });
+
     return (
-      <div key={staff.id} className="col-6 col-md-4 col-lg-2">
-        <Link to={`/StaffList/${staff.id}`}>
-          <Card>
-            <CardImg width="100%" src={staff.image} alt={staff.name} />
-            <CardTitle className="text-center">{staff.name}</CardTitle>
-          </Card>
-        </Link>
-      </div>
-    );
-  });
-
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <h3>Nhân viên</h3>
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-sm-4 col-md-6">
+            <h3>Nhân viên</h3>
+          </div>
+          <div className="col-12 col-sm-48 col-md-6">
+            <SearchBar onSubmit={onSubmitSearch} />
+          </div>
           <hr />
         </div>
+        <div className="row">{staffList}</div>
       </div>
-      <div className="row">{staffList}</div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default StaffList;

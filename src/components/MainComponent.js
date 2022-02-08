@@ -42,15 +42,13 @@ class Main extends Component {
       <div>
         <Header />
         <Switch>
-          <Route path="/stafflist" component={HomePage} />
+          <Route exact path="/stafflist" component={HomePage} />
           <Route path="/stafflist/:id" component={StaffWithId} />
           <Route
-            exact
             path="/payroll"
             component={() => <Payrolls staffs={this.state.staffs} />}
           />
           <Route
-            exact
             path="/department"
             component={() => (
               <Departments departments={this.state.departments} />

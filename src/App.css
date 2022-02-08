@@ -31,3 +31,16 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+
+@media screen and (min-width: 769px){
+    #searchForm{
+        position: absolute;
+        right: 15px;
+    }
+}
+@media screen and (max-width: 768px){
+    #searchForm{
+        position: absolute;
+        left: 15px;
+    }
+}
