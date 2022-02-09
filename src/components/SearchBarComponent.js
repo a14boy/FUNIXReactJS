@@ -8,10 +8,17 @@ function SearchBar(props) {
   };
   return (
     <Form id="searchForm" inline onSubmit={handleSearchKey}>
-      <FormGroup>
-        <Label forHtml="search" name="search"></Label>
-        <Input id="search" name="search" type="text"></Input>
-        <Button type="submit">Tìm kiếm</Button>
+      <FormGroup className="ml-auto">
+        <Label for="search" name="search"></Label>
+        <Input
+          id="search"
+          name="search"
+          type="text"
+          placeholder="Tìm kiếm ..."
+        ></Input>
+        <Button type="submit">
+          <span className="fa fa-search fa-lg"></span>
+        </Button>
       </FormGroup>
     </Form>
   );

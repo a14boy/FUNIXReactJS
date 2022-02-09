@@ -19,9 +19,11 @@ const Departments = (props) => {
   });
   return (
     <div className="container">
-      <div className="col-12">
-        <h3>Phòng ban</h3>
-        <hr />
+      <div className="row">
+        <div className="col-12">
+          <h3>Phòng ban</h3>
+          <hr />
+        </div>
       </div>
       <div className="row">{departmentDetail}</div>
     </div>
