@@ -9,15 +9,15 @@ function SortComponent(props) {
   return (
     <div>
       <Form id="sortForm" inline onSubmit={handleSortData}>
-        <FormGroup name="sortData" className="ml-auto">
-          <Label for="sortParam">
+        <FormGroup name="sortData" className="ml-auto row mr-0">
+          <Label for="sortParam" className="col-5 p-0 m-0">
             <b>Mức lương: </b>
           </Label>
-          <Input id="sortType" type="select">
-            <option>Tăng dần</option>
-            <option>Giảm dần</option>
+          <Input id="sortType" type="select" className="col-5">
+            <option>Tăng</option>
+            <option>Giảm</option>
           </Input>
-          <Button type="submit">
+          <Button type="submit" className="col-2">
             <span className="fa fa-filter fa-lg"></span>
           </Button>
         </FormGroup>

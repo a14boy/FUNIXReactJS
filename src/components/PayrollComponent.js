@@ -7,7 +7,7 @@ class Payrolls extends Component {
     super(props);
 
     this.state = {
-      currentSort: "Tăng dần",
+      currentSort: "Tăng",
     };
 
     this.handleSort = this.handleSort.bind(this);
@@ -27,7 +27,7 @@ class Payrolls extends Component {
     );
   };
   mySort = (staff1, staff2) =>
-    this.state.currentSort === "Tăng dần"
+    this.state.currentSort === "Tăng"
       ? this.staffSalary(staff1) - this.staffSalary(staff2)
       : this.staffSalary(staff2) - this.staffSalary(staff1);
   render() {
