@@ -9,7 +9,7 @@ function SortComponent(props) {
   return (
     <div>
       <Form id="sortForm" inline onSubmit={handleSortData}>
-        <FormGroup name="sortData" className="ml-auto row mr-0">
+        <FormGroup row name="sortData" className="ml-auto mr-0">
           <Label for="sortParam" className="col-5 p-0 m-0">
             <b>Mức lương: </b>
           </Label>

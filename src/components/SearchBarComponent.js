@@ -8,7 +8,7 @@ function SearchBar(props) {
   };
   return (
     <Form id="searchForm" inline onSubmit={handleSearchKey}>
-      <FormGroup className="ml-auto mr-0 row">
+      <FormGroup row className="ml-auto mr-0">
         <Label for="search" name="search"></Label>
         <Input
           className="col-10"
