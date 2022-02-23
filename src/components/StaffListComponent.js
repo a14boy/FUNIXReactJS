@@ -27,6 +27,15 @@ class StaffList extends Component {
     this.state = {
       searchKey: "",
       isModalOpen: false,
+      name: "",
+      doB: "",
+      salaryScale: "",
+      startDate: "",
+      department: "",
+      annualLeave: "",
+      overTime: "",
+      salary: "",
+      image: "",
     };
 
     this.toggleModal = this.toggleModal.bind(this);
@@ -101,8 +110,8 @@ class StaffList extends Component {
                           className="form-control"
                           validators={{
                             required,
-                            minLength: minLength(3),
-                            maxLength: maxLength(15),
+                            minLength: minLength(4),
+                            maxLength: maxLength(20),
                           }}
                         />
                         <Errors
@@ -110,9 +119,9 @@ class StaffList extends Component {
                           className="text-danger"
                           show="touched"
                           messages={{
-                            required: "Required ",
-                            minLength: "Must be greater than 2 characters",
-                            maxLength: "Must be 15 characters or less",
+                            required: "Hãy Nhập vào tên nhân viên ",
+                            minLength: "Tên phải có nhiều hơn 4 ký tự",
+                            maxLength: "Tên phải có ít hơn 20 ký tự",
                           }}
                         />
                       </Col>
@@ -122,17 +131,19 @@ class StaffList extends Component {
                         Ngày sinh
                       </Label>
                       <Col md={8}>
-                        <Control.custom
+                        <Control
                           model=".doB"
                           id="doB"
                           name="doB"
                           type="date"
                           className="form-control"
+                          validators={{ required }}
                         />
                         <Errors
                           model=".doB"
                           className="text-danger"
                           show="touched"
+                          messages={{ required: "Hãy nhập vào ngày sinh" }}
                         />
                       </Col>
                     </Row>
@@ -157,8 +168,8 @@ class StaffList extends Component {
                           className="text-danger"
                           show="touched"
                           messages={{
-                            required: "Required ",
-                            isNumber: "Must be a number",
+                            required: "Hãy nhập vào hệ số lương ",
+                            isNumber: "Hệ số lương phải là một số",
                           }}
                         />
                       </Col>
@@ -168,17 +179,19 @@ class StaffList extends Component {
                         Ngày vào công ty
                       </Label>
                       <Col md={8}>
-                        <Control.custom
+                        <Control
                           model=".startDate"
                           id="startDate"
                           name="startDate"
                           type="date"
                           className="form-control"
+                          validators={{ required }}
                         />
                         <Errors
                           model=".startDate"
                           className="text-danger"
                           show="touched"
+                          messages={{ required: "Hãy nhập ngày vào công ty" }}
                         />
                       </Col>
                     </Row>
@@ -191,6 +204,7 @@ class StaffList extends Component {
                           model=".department"
                           id="department"
                           name="department"
+                          defaultValue="Finance"
                         >
                           <option value="Finance">Finance</option>
                           <option value="Sale">Sale</option>
@@ -209,7 +223,7 @@ class StaffList extends Component {
                           model=".annualLeave"
                           id="annualLeave"
                           name="annualLeave"
-                          defaultValue="1"
+                          defaultValue="0"
                           className="form-control"
                           validators={{
                             required,
@@ -221,8 +235,8 @@ class StaffList extends Component {
                           className="text-danger"
                           show="touched"
                           messages={{
-                            required: "Required ",
-                            isNumber: "Must be a number",
+                            required: "Hãy nhập số ngày nghỉ thường niên ",
+                            isNumber: "Số ngày nghỉ thường niên là một số",
                           }}
                         />
                       </Col>
@@ -236,7 +250,7 @@ class StaffList extends Component {
                           model=".overTime"
                           id="overTime"
                           name="overTime"
-                          defaultValue="1"
+                          defaultValue="0"
                           className="form-control"
                           validators={{
                             required,
@@ -248,8 +262,8 @@ class StaffList extends Component {
                           className="text-danger"
                           show="touched"
                           messages={{
-                            required: "Required ",
-                            isNumber: "Must be a number",
+                            required: "Hãy nhập vào số ngày đã làm thêm ",
+                            isNumber: "Số ngày làm thêm là một số",
                           }}
                         />
                       </Col>
@@ -275,8 +289,8 @@ class StaffList extends Component {
                           className="text-danger"
                           show="touched"
                           messages={{
-                            required: "Required ",
-                            isNumber: "Must be a number",
+                            required: "Hãy nhập vào lương nhân viên ",
+                            isNumber: "Lương nhân viên là một số",
                           }}
                         />
                       </Col>
@@ -286,7 +300,12 @@ class StaffList extends Component {
                         Ảnh
                       </Label>
                       <Col md={8}>
-                        <Control.file model=".image" id="image" name="image" />
+                        <Control.file
+                          model=".image"
+                          id="image"
+                          name="image"
+                          defaultValue="/assets/images/alberto.png"
+                        />
                         <Errors
                           model=".image"
                           className="text-danger"
@@ -307,7 +326,7 @@ class StaffList extends Component {
               </Modal>
             </h3>
           </div>
-          <div className="col-12 col-sm-6">
+          <div className="col-sm-12 col-md-6">
             <SearchBar onSubmit={onSubmitSearch} />
           </div>
         </div>
