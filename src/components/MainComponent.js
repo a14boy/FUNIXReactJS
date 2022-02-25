@@ -5,32 +5,32 @@ import StaffList from "./StaffListComponent";
 import StaffInfo from "./StaffInfoComponent";
 import Departments from "./DepartmentComponent";
 import Payrolls from "./PayrollComponent";
-import { STAFFS } from "../shared/staffs";
-import { ROLE } from "../shared/role";
-import { DEPARTMENTS } from "../shared/departments";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => {
+  return {
+    staffs: state.staffs,
+    role: state.role,
+    departments: state.departments,
+  };
+};
 
 class Main extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      staffs: STAFFS,
-      role: ROLE,
-      departments: DEPARTMENTS,
-    };
   }
 
   render() {
     const HomePage = () => {
-      return <StaffList staffs={this.state.staffs} />;
+      return <StaffList staffs={this.props.staffs} />;
     };
 
     const StaffWithId = ({ match }) => {
       return (
         <StaffInfo
           staff={
-            this.state.staffs.filter(
+            this.props.staffs.filter(
               (staff) => staff.id === parseInt(match.params.id, 10)
             )[0]
           }
@@ -46,12 +46,12 @@ class Main extends Component {
           <Route path="/stafflist/:id" component={StaffWithId} />
           <Route
             path="/payroll"
-            component={() => <Payrolls staffs={this.state.staffs} />}
+            component={() => <Payrolls staffs={this.props.staffs} />}
           />
           <Route
             path="/department"
             component={() => (
-              <Departments departments={this.state.departments} />
+              <Departments departments={this.props.departments} />
             )}
           />
           <Redirect to="/stafflist" />
@@ -62,4 +62,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));

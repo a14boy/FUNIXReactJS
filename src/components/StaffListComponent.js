@@ -127,7 +127,7 @@ class StaffList extends Component {
                           model=".name"
                           id="name"
                           name="name"
-                          defaultValue="Nguyễn Văn A"
+                          placeholder="Họ tên"
                           className="form-control"
                           validators={{
                             required,
@@ -177,7 +177,7 @@ class StaffList extends Component {
                           model=".salaryScale"
                           id="salaryScale"
                           name="salaryScale"
-                          defaultValue="1.0"
+                          defaultValue="1"
                           className="form-control"
                           validators={{
                             required,
