@@ -14,6 +14,7 @@ import {
 import { LocalForm, Control, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
+import { DEPARTMENTS } from "../shared/departments";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -27,15 +28,6 @@ class StaffList extends Component {
     this.state = {
       searchKey: "",
       isModalOpen: false,
-      name: "",
-      doB: "",
-      salaryScale: "",
-      startDate: "",
-      department: "",
-      annualLeave: "",
-      overTime: "",
-      salary: "",
-      image: "",
     };
 
     this.toggleModal = this.toggleModal.bind(this);
@@ -48,8 +40,37 @@ class StaffList extends Component {
   }
 
   handleAddStaffForm(values) {
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
+    let a;
+    switch (values.department) {
+      case "Sale":
+        a = 0;
+        break;
+      case "HR":
+        a = 1;
+        break;
+      case "Marketing":
+        a = 2;
+        break;
+      case "IT":
+        a = 3;
+        break;
+      default:
+        a = 4;
+    }
+    DEPARTMENTS[a].numberOfStaff += 1;
+    const newStaff = {
+      id: this.props.staffs.length,
+      name: values.name,
+      doB: values.doB,
+      salaryScale: values.salaryScale,
+      startDate: values.startDate,
+      department: DEPARTMENTS[a],
+      annualLeave: values.annualLeave,
+      overTime: values.overTime,
+      image: "/assets/images/alberto.png",
+    };
+    this.props.staffs.push(newStaff);
+    this.toggleModal();
   }
 
   render() {
@@ -265,51 +286,6 @@ class StaffList extends Component {
                             required: "Hãy nhập vào số ngày đã làm thêm ",
                             isNumber: "Số ngày làm thêm là một số",
                           }}
-                        />
-                      </Col>
-                    </Row>
-                    <Row className="form-group">
-                      <Label htmlFor="salary" md={4}>
-                        Lương
-                      </Label>
-                      <Col md={8}>
-                        <Control.text
-                          model=".salary"
-                          id="salary"
-                          name="salary"
-                          defaultValue="3000000"
-                          className="form-control"
-                          validators={{
-                            required,
-                            isNumber,
-                          }}
-                        />
-                        <Errors
-                          model=".salary"
-                          className="text-danger"
-                          show="touched"
-                          messages={{
-                            required: "Hãy nhập vào lương nhân viên ",
-                            isNumber: "Lương nhân viên là một số",
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                    <Row className="form-group">
-                      <Label htmlFor="image" md={4}>
-                        Ảnh
-                      </Label>
-                      <Col md={8}>
-                        <Control.file
-                          model=".image"
-                          id="image"
-                          name="image"
-                          defaultValue="/assets/images/alberto.png"
-                        />
-                        <Errors
-                          model=".image"
-                          className="text-danger"
-                          show="touched"
                         />
                       </Col>
                     </Row>
