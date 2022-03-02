@@ -94,7 +94,24 @@ class StaffList extends Component {
       newStaff.overTime
     ) {
       this.props.staffs.push(newStaff);
-      console.log(this.props.staffs);
+      this.setState({
+        name: "",
+        doB: "",
+        salaryScale: "",
+        startDate: "",
+        department: "",
+        annualLeave: "",
+        overTime: "",
+        touched: {
+          name: false,
+          doB: false,
+          salaryScale: false,
+          startDate: false,
+          department: false,
+          annualLeave: false,
+          overTime: false,
+        },
+      });
       this.toggleModal();
     }
   }
