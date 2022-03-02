@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Card,
   CardImg,
@@ -7,8 +7,19 @@ import {
   CardTitle,
   Breadcrumb,
   BreadcrumbItem,
+  Label,
+  Modal,
+  ModalHeader,
+  Button,
+  Row,
+  Col,
+  ModalBody,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Control, LocalForm, Errors } from "react-redux-form";
+
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
 
 function RenderDish({ dish }) {
   if (dish != null)
@@ -47,6 +58,7 @@ function RenderComments({ comments, addComment, dishId }) {
             );
           })}
         </ul>
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     );
   else return <div></div>;
@@ -83,5 +95,146 @@ const DishDetail = (props) => {
     );
   else return <div></div>;
 };
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.state = {
+      isNavOpen: false,
+      isModalOpen: false,
+    };
+  }
+
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    });
+  }
+
+  handleSubmit(values) {
+    this.toggleModal();
+    console.log("current State is: " + JSON.stringify(values));
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
+  }
+  render() {
+    return (
+      <div>
+        <Button outline onClick={this.toggleModal}>
+          <span className="fa fa-pencil fa-lg"> Submit Comment</span>
+        </Button>
+        <Modal
+          outline
+          isOpen={this.state.isModalOpen}
+          toggle={this.toggleModal}
+        >
+          <ModalHeader
+            close={
+              <button className="close" onClick={this.toggleModal}>
+                ×
+              </button>
+            }
+            toggle={this.toggleModal}
+          >
+            Submit comment
+          </ModalHeader>
+          <ModalBody>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+              <Row className="form-group">
+                <Label htmlFor="rating" md={3}>
+                  Rating
+                </Label>
+                <Col md={9}>
+                  <Control.select
+                    model=".rating"
+                    id="rating"
+                    name="rating"
+                    defaultValue="5"
+                  >
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                  </Control.select>
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Label htmlFor="name" md={3}>
+                  Your Name
+                </Label>
+                <Col md={9}>
+                  <Control.text
+                    model=".name"
+                    id="name"
+                    name="name"
+                    placeholder="Your Name"
+                    className="form-control"
+                    validators={{
+                      minLength: minLength(4),
+                      maxLength: maxLength(20),
+                    }}
+                  />
+                  <Errors
+                    model=".name"
+                    className="text-danger"
+                    show="touched"
+                    messages={{
+                      minLength: "Must be greater than 4 characters",
+                      maxLength: "Must be 20 characters less",
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Label htmlFor="comment" md={3}>
+                  Comment
+                </Label>
+                <Col md={9}>
+                  <Control.textarea
+                    model=".comment"
+                    id="comment"
+                    name="comment"
+                    rows="5"
+                    className="form-control"
+                    validators={{
+                      minLength: minLength(10),
+                      maxLength: maxLength(100),
+                    }}
+                  />
+                  <Errors
+                    model=".comment"
+                    className="text-danger"
+                    show="touched"
+                    messages={{
+                      minLength: "Must be greater than 10 characters",
+                      maxLength: "Must be 100 characters less",
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Col sm={{ offset: 3, size: 9 }}>
+                  <Button color="primary" type="submit">
+                    Submit
+                  </Button>{" "}
+                  <Button onClick={this.toggleModal}>Cancel</Button>
+                </Col>
+              </Row>
+            </LocalForm>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
 
 export default DishDetail;
