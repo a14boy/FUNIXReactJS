@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
@@ -64,7 +65,21 @@ function RenderComments({ comments, addComment, dishId }) {
   else return <div></div>;
 }
 const DishDetail = (props) => {
-  if (props.dish != null)
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    <div className="container">
+      <dic className="row">
+        <h4>{props.errMess}</h4>
+      </dic>
+    </div>;
+  } else if (props.dish != null)
     return (
       <div className="container">
         <div className="row">
@@ -168,14 +183,14 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="name" md={3}>
+                <Label htmlFor="author" md={3}>
                   Your Name
                 </Label>
                 <Col md={9}>
                   <Control.text
-                    model=".name"
-                    id="name"
-                    name="name"
+                    model=".author"
+                    id="author"
+                    name="author"
                     placeholder="Your Name"
                     className="form-control"
                     validators={{
@@ -184,7 +199,7 @@ class CommentForm extends Component {
                     }}
                   />
                   <Errors
-                    model=".name"
+                    model=".author"
                     className="text-danger"
                     show="touched"
                     messages={{

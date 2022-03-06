@@ -1,6 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
 import { DISHES } from "../shared/dishes";
-import { actionTypes } from "react-redux-form";
 
 export const addComment = (dishId, rating, author, comment) => ({
   type: ActionTypes.ADD_COMMENT,
@@ -24,7 +23,7 @@ export const dishesLoading = () => ({
   type: ActionTypes.DISHES_LOADING,
 });
 
-export const dishesFailed = () => ({
+export const dishesFailed = (errmess) => ({
   type: ActionTypes.DISHES_FAILED,
   payload: errmess,
 });
