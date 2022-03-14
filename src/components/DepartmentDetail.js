@@ -8,16 +8,9 @@ import {
 } from "reactstrap";
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
-import { Loading } from "./LoadingComponent";
 
-function RenderStaffInfo({ staff, department }) {
-  console.log(staff, department);
-  if (staff.errMess) {
-    return <h4>{staff.errMess}</h4>;
-  } else if (staff != null) {
-    const dept = department.departments.filter(
-      (department) => department.id === staff.departmentId
-    )[0];
+function RenderStaffInfo({ staff }) {
+  if (staff != null)
     return (
       <React.Fragment>
         <div id="selectedDish" className="col-12 col-sm-6 col-lg-4">
@@ -32,22 +25,14 @@ function RenderStaffInfo({ staff, department }) {
             <CardText>
               Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
             </CardText>
-            <CardText>Phòng ban: {dept.name}</CardText>
+            <CardText>Phòng ban: {staff.department.name}</CardText>
             <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
             <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
           </Card>
         </div>
       </React.Fragment>
     );
-  } else {
-    return (
-      <div className="container">
-        <div className="row">
-          <Loading />
-        </div>
-      </div>
-    );
-  }
+  else return <div></div>;
 }
 
 const StaffInfo = (props) => {
@@ -63,7 +48,7 @@ const StaffInfo = (props) => {
           </Breadcrumb>
         </div>
         <div className="row pb-3">
-          <RenderStaffInfo staff={props.staff} department={props.department} />
+          <RenderStaffInfo staff={props.staff} />
         </div>
       </div>
     );
