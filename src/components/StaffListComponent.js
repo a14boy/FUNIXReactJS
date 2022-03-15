@@ -11,10 +11,9 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { LocalForm, Control, Errors } from "react-redux-form";
+import { Form, Control, Errors} from "react-redux-form";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
-import { DEPARTMENTS } from "../shared/departments";
 import { Loading } from "./LoadingComponent";
 import { FadeTransform } from "react-animation-components";
 
@@ -41,37 +40,22 @@ class StaffList extends Component {
     });
   }
 
-  handleAddStaffForm(values) {
-    let a;
-    switch (values.department) {
-      case "Sale":
-        a = 0;
-        break;
-      case "HR":
-        a = 1;
-        break;
-      case "Marketing":
-        a = 2;
-        break;
-      case "IT":
-        a = 3;
-        break;
-      default:
-        a = 4;
-    }
-    DEPARTMENTS[a].numberOfStaff += 1;
+  handleAddStaffForm(value) {
     const newStaff = {
-      id: this.props.staffs.length,
-      name: values.name,
-      doB: values.doB,
-      salaryScale: values.salaryScale,
-      startDate: values.startDate,
-      department: DEPARTMENTS[a],
-      annualLeave: values.annualLeave,
-      overTime: values.overTime,
-      image: "/assets/images/alberto.png",
-    };
-    this.props.staffs.push(newStaff);
+      id: this.props.staffs.staffs.length,
+      name: value.name,
+      doB: value.doB,
+      salaryScale: value.salaryScale,
+      startDate: value.startDate,
+      department: value.department,
+      annualLeave: value.annualLeave,
+      overTime: value.overTime,
+      image: "/asset/images/alberto.png"
+    }
+   this.props.addStaff(newStaff);
+   this.props.postStaff(newStaff);
+   console.log(this.props.staffs.staffs);
+    this.props.resetAddStaffForm();
     this.toggleModal();
   }
 
@@ -137,7 +121,7 @@ class StaffList extends Component {
                     Thêm nhân viên
                   </ModalHeader>
                   <ModalBody>
-                    <LocalForm
+                    <Form model="addStaff"
                       onSubmit={(values) => this.handleAddStaffForm(values)}
                     >
                       <Row className="form-group">
@@ -321,7 +305,7 @@ class StaffList extends Component {
                           <Button onClick={this.toggleModal}>Hủy bỏ</Button>
                         </Col>
                       </Row>
-                    </LocalForm>
+                    </Form>
                   </ModalBody>
                 </Modal>
               </h3>

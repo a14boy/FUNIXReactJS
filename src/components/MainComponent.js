@@ -12,8 +12,11 @@ import {
   fetchStaffs,
   fetchDepartments,
   fetchStaffsSalary,
-} from "../redux/ActionCreator";
+  addStaff,
+  postStaff
+} from "../redux/ActionCreators";
 import { Loading } from "./LoadingComponent";
+import { actions } from "react-redux-form";
 
 const mapStateToProps = (state) => {
   return {
@@ -28,6 +31,15 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => {
     dispatch(fetchStaffs());
   },
+  addStaff: (newStaff) => {
+    dispatch(addStaff(newStaff));
+  },
+  postStaff: (newStaff) => {
+    dispatch(postStaff(newStaff));
+  },
+  resetAddStaffForm: () => {
+    dispatch(actions.reset("addStaff"));
+  },
   fetchDepartments: () => {
     dispatch(fetchDepartments());
   },
@@ -41,10 +53,14 @@ class Main extends Component {
     this.props.fetchStaffs();
     this.props.fetchDepartments();
     this.props.fetchStaffsSalary();
+    this.props.addStaff();
+    this.props.postStaff();
   }
   render() {
     const HomePage = () => {
-      return <StaffList staffs={this.props.staffs} />;
+      return (
+        <StaffList staffs={this.props.staffs} addStaff={this.props.addStaff} postStaff={this.props.postStaff}/>
+      );
     };
 
     const StaffWithId = ({ match }) => {
@@ -100,7 +116,13 @@ class Main extends Component {
       <div>
         <Header />
         <Switch>
-          <Route exact path="/stafflist" component={HomePage} />
+          <Route
+            exact
+            path="/stafflist"
+            component={() => (
+              <HomePage resetAddStaffForm={this.props.resetAddStaffForm} />
+            )}
+          />
           <Route path="/stafflist/:id" component={StaffWithId} />
           <Route
             path="/payroll"

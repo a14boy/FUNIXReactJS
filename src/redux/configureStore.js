@@ -1,10 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createForms } from "react-redux-form";
 import { Departments } from "./departments";
 import { Role } from "./role";
 import { Staffs } from "./staffs";
 import { StaffsSalary } from "./staffsSalary";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
+import { AddStaffForm } from "./form";
 
 
 export const ConfigureStore = () => {
@@ -13,7 +15,10 @@ export const ConfigureStore = () => {
       staffs: Staffs,
       departments: Departments,
       role: Role,
-      staffsSalary: StaffsSalary
+      staffsSalary: StaffsSalary,
+      ...createForms({
+        addStaff: AddStaffForm
+      })
     }),
     applyMiddleware(thunk, logger)
   );
