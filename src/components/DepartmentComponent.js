@@ -1,13 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, CardTitle, CardText } from "reactstrap";
 import { Loading } from "./LoadingComponent";
+import { FadeTransform } from "react-animation-components";
 
 function RenderDepartment({ department }) {
   return (
-    <Card className="pl-3">
-      <CardTitle>{department.name}</CardTitle>
-      <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
-    </Card>
+    <Link to={`/department/${department.id}`}>
+      <FadeTransform
+        in
+        transformProps={{
+          exitTransform: "scale(0.5) translateY(-50%)",
+        }}
+      >
+        <Card className="pl-3">
+          <CardTitle>{department.name}</CardTitle>
+          <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
+        </Card>
+      </FadeTransform>
+    </Link>
   );
 }
 const Departments = (props) => {

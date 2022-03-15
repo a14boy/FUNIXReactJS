@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { DEPARTMENTS } from "../shared/departments";
 import { Loading } from "./LoadingComponent";
+import { FadeTransform } from "react-animation-components";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -97,10 +98,17 @@ class StaffList extends Component {
           return (
             <div key={staff.id} className="col-6 col-md-4 col-lg-2 mb-3">
               <Link to={`/stafflist/${staff.id}`}>
-                <Card>
-                  <CardImg width="100%" src={staff.image} alt={staff.name} />
-                  <CardText className="text-center">{staff.name}</CardText>
-                </Card>
+                <FadeTransform
+                  in
+                  transformProps={{
+                    exitTransform: "scale(0.5) translateY(-50%)",
+                  }}
+                >
+                  <Card>
+                    <CardImg width="100%" src={staff.image} alt={staff.name} />
+                    <CardText className="text-center">{staff.name}</CardText>
+                  </Card>
+                </FadeTransform>
               </Link>
             </div>
           );
@@ -226,7 +234,9 @@ class StaffList extends Component {
                             model=".startDate"
                             className="text-danger"
                             show="touched"
-                            messages={{ required: "Hãy nhập ngày vào công ty" }}
+                            messages={{
+                              required: "Hãy nhập ngày vào công ty",
+                            }}
                           />
                         </Col>
                       </Row>

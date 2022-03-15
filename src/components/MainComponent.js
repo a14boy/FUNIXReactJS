@@ -5,6 +5,7 @@ import StaffList from "./StaffListComponent";
 import StaffInfo from "./StaffInfoComponent";
 import Departments from "./DepartmentComponent";
 import Payrolls from "./PayrollComponent";
+import StaffInDept from "./DepartmentDetail";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -12,6 +13,7 @@ import {
   fetchDepartments,
   fetchStaffsSalary,
 } from "../redux/ActionCreator";
+import { Loading } from "./LoadingComponent";
 
 const mapStateToProps = (state) => {
   return {
@@ -35,10 +37,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.fetchStaffs();
     this.props.fetchDepartments();
@@ -50,18 +48,54 @@ class Main extends Component {
     };
 
     const StaffWithId = ({ match }) => {
-      return (
-        <StaffInfo
-          staff={
-            this.props.staffs.staffs.filter(
-              (staff) => staff.id === parseInt(match.params.id, 10)
-            )[0]
-          }
-          department={this.props.departments}
-        />
-      );
+      if (this.props.staffs.isLoading) {
+        return (
+          <div className="container">
+            <div className="row">
+              <Loading />
+            </div>
+          </div>
+        );
+      } else if (this.props.staffs.errMess) {
+        return <h4>{this.props.staffs.errMess}</h4>;
+      } else if (this.props.staffs.staffs != null) {
+        return (
+          <StaffInfo
+            staff={
+              this.props.staffs.staffs.filter(
+                (staff) => staff.id === parseInt(match.params.id, 10)
+              )[0]
+            }
+            department={this.props.departments}
+          />
+        );
+      }
     };
 
+    const DeptWithId = ({ match }) => {
+      if (this.props.departments.isLoading) {
+        return (
+          <div className="container">
+            <div className="row">
+              <Loading />
+            </div>
+          </div>
+        );
+      } else if (this.props.departments.errMess) {
+        return <h4>{this.props.departments.errMess}</h4>;
+      } else if (this.props.departments.departments != null) {
+        return (
+          <StaffInDept
+            department={
+              this.props.departments.departments.filter(
+                (dept) => dept.id === match.params.id
+              )[0]
+            }
+            staffs={this.props.staffs}
+          />
+        );
+      }
+    };
     return (
       <div>
         <Header />
@@ -75,12 +109,14 @@ class Main extends Component {
             )}
           />
           <Route
+            exact
             path="/department"
             component={() => (
               <Departments departments={this.props.departments} />
             )}
           />
-          <Redirect to="/stafflist" />
+          <Route path="/department/:id" component={DeptWithId} />
+          <Redirect to="/stafflist" component={HomePage} />
         </Switch>
         <Footer />
       </div>

@@ -9,43 +9,57 @@ import {
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
+import { FadeTransform } from "react-animation-components";
 
 function RenderStaffInfo({ staff, department }) {
-  console.log(staff, department);
-  if (staff.errMess) {
-    return <h4>{staff.errMess}</h4>;
-  } else if (staff != null) {
-    const dept = department.departments.filter(
-      (department) => department.id === staff.departmentId
-    )[0];
-    return (
-      <React.Fragment>
-        <div id="selectedDish" className="col-12 col-sm-6 col-lg-4">
-          <img top src={staff.image} alt={staff.name} width="100%" />
-        </div>
-        <div className="col-12 col-sm-6 col-lg-8">
-          <Card id="viewStaffInfo" className="p-3">
-            <CardTitle>{staff.name}</CardTitle>
-            <CardText>
-              Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>
-              Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
-            </CardText>
-            <CardText>Phòng ban: {dept.name}</CardText>
-            <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
-            <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
-          </Card>
-        </div>
-      </React.Fragment>
-    );
-  } else {
+  if (department.isLoading) {
     return (
       <div className="container">
         <div className="row">
           <Loading />
         </div>
       </div>
+    );
+  } else if (department.errMess) {
+    return <h4>{department.errMess}</h4>;
+  } else if (department.departments != null) {
+    const dept = department.departments.filter(
+      (department) => department.id === staff.departmentId
+    )[0];
+    return (
+      <React.Fragment>
+        <div id="selectedDish" className="col-12 col-sm-6 col-lg-4">
+          <FadeTransform
+            in
+            transformProps={{
+              exitTransform: "scale(0.5) translateX(-50%)",
+            }}
+          >
+            <img top src={staff.image} alt={staff.name} width="100%" />
+          </FadeTransform>
+        </div>
+        <div className="col-12 col-sm-6 col-lg-8">
+          <FadeTransform
+            in
+            transformProps={{
+              exitTransform: "scale(0.5) translateX(50%)",
+            }}
+          >
+            <Card id="viewStaffInfo" className="p-3">
+              <CardTitle>{staff.name}</CardTitle>
+              <CardText>
+                Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}
+              </CardText>
+              <CardText>
+                Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}
+              </CardText>
+              <CardText>Phòng ban: {dept.name}</CardText>
+              <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
+              <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
+            </Card>
+          </FadeTransform>
+        </div>
+      </React.Fragment>
     );
   }
 }

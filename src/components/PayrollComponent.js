@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card, CardTitle, CardText, CardBody, CardFooter } from "reactstrap";
 import SortComponent from "./SortComponent";
 import { Loading } from "./LoadingComponent";
+import { FadeTransform } from "react-animation-components";
 
 class Payrolls extends Component {
   constructor(props) {
@@ -38,15 +39,22 @@ class Payrolls extends Component {
         .map((staff) => {
           return (
             <div key={staff.id} className="col-12 col-md-6 col-lg-4 mb-3">
-              <Card>
-                <CardBody className="pl-3">
-                  <CardTitle>{staff.name}</CardTitle>
-                  <CardText>Mã nhân viên: {staff.id}</CardText>
-                  <CardText>Hệ số lương: {staff.salaryScale}</CardText>
-                  <CardText>Số giờ làm thêm: {staff.overTime}</CardText>
-                </CardBody>
-                <CardFooter>Lương: {staff.salary}</CardFooter>
-              </Card>
+              <FadeTransform
+                in
+                transformProps={{
+                  exitTransform: "scale(0.5) translateY(-50%)",
+                }}
+              >
+                <Card>
+                  <CardBody className="pl-3">
+                    <CardTitle>{staff.name}</CardTitle>
+                    <CardText>Mã nhân viên: {staff.id}</CardText>
+                    <CardText>Hệ số lương: {staff.salaryScale}</CardText>
+                    <CardText>Số giờ làm thêm: {staff.overTime}</CardText>
+                  </CardBody>
+                  <CardFooter>Lương: {staff.salary}</CardFooter>
+                </Card>
+              </FadeTransform>
             </div>
           );
         });
