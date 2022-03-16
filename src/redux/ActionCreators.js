@@ -8,7 +8,6 @@ export const addStaff = (newStaff) => ({
 
 export const postStaff = (newStaff) => (dispatch) => {
   dispatch(staffsLoading(true));
-  console.log(newStaff);
   dispatch(addStaff(newStaff));
   return fetch(baseUrl + "staffs", {
     method: "POST",
@@ -36,6 +35,8 @@ export const postStaff = (newStaff) => (dispatch) => {
     )
     .then((response) => response.json())
     .then((response) => dispatch(addStaffs(response)))
+    .then((response) => dispatch(fetchStaffsSalary(response)))
+    .then((response) => dispatch(fetchDepartments(response)))
     .catch((error) => {
       console.log("post staffs", error.message);
       alert("Your staff could not be posted\nError: " + error.message);
@@ -81,33 +82,33 @@ export const staffsFailed = (errmess) => ({
   payload: errmess,
 });
 
-// export const deleteStaff = (staffId) => (dispatch) => {
-//   return fetch(baseUrl + "staffs", {
-//     method: "DELETE",
-//   })
-//     .then(
-//       (response) => {
-//         if (response.ok) {
-//           return response;
-//         } else {
-//           var error = new Error(
-//             "Error " + response.status + ": " + response.statusText
-//           );
-//           error.response = response;
-//           throw error;
-//         }
-//       },
-//       (error) => {
-//         throw error;
-//       }
-//     )
-//     .then((response) => response.json())
-//     .then((response) => dispatch(addStaffs(response)))
-//     .catch((error) => {
-//       console.log("delete staffs", error.message);
-//       alert("Your staff could not be deleted\nError: " + error.message);
-//     });
-// };
+export const deleteStaff = (staffId) => (dispatch) => {
+  return fetch(baseUrl + "staffs", {
+    method: "DELETE",
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        throw error;
+      }
+    )
+    .then((response) => response.json())
+    .then((response) => dispatch(addStaffs(response)))
+    .catch((error) => {
+      console.log("delete staffs", error.message);
+      alert("Your staff could not be deleted\nError: " + error.message);
+    });
+};
 
 export const fetchDepartments = () => (dispatch) => {
   dispatch(departmentsLoading(true));

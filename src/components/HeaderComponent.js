@@ -28,41 +28,38 @@ class Header extends Component {
   render() {
     return (
       <div className="mb-2">
-        <React.Fragment>
-          <Navbar dark expand="md">
-            <div className="container">
-              <NavbarToggler onClick={this.togglerNav} />
-              <NavbarBrand className="mr-auto" href="/">
-                <img
-                  src="assets/images/logo.png"
-                  height="30"
-                  width="41"
-                  alt="Ristorante Con Fusion"
-                />
-              </NavbarBrand>
-              <Collapse isOpen={this.state.isNavOpen} navbar>
-                <Nav navbar>
-                  <NavItem>
-                    <NavLink className="nav-link" to="/Staff">
-                      <span className="fa fa-users fa-lg"></span> Nhân viên
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to="/department">
-                      <span className="fa fa-briefcase fa-lg"></span> Phòng ban
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink className="nav-link" to="/payroll">
-                      <span className="fa fa-file-text  fa-lg"></span> Bảng
-                      lương
-                    </NavLink>
-                  </NavItem>
-                </Nav>
-              </Collapse>
-            </div>
-          </Navbar>
-        </React.Fragment>
+        <Navbar dark expand="md">
+          <div className="container">
+            <NavbarToggler onClick={this.togglerNav} />
+            <NavbarBrand className="mr-auto" href="/">
+              <img
+                src="assets/images/logo.png"
+                height="30"
+                width="41"
+                alt="Ristorante Con Fusion"
+              />
+            </NavbarBrand>
+            <Collapse isOpen={this.state.isNavOpen} navbar>
+              <Nav navbar>
+                <NavItem>
+                  <NavLink className="nav-link" to="/Staff">
+                    <span className="fa fa-users fa-lg"></span> Nhân viên
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="nav-link" to="/department">
+                    <span className="fa fa-briefcase fa-lg"></span> Phòng ban
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="nav-link" to="/payroll">
+                    <span className="fa fa-file-text  fa-lg"></span> Bảng lương
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </div>
+        </Navbar>
       </div>
     );
   }
