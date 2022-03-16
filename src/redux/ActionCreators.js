@@ -1,45 +1,49 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-export const addStaff = (staff) => ({
+export const addStaff = (newStaff) => ({
   type: ActionTypes.ADD_STAFF,
-  payload: staff,
+  payload: newStaff,
 });
 
 export const postStaff = (newStaff) => (dispatch) => {
-    return fetch(baseUrl + "staffs", {
-      method: "POST",
-      body: JSON.stringify(newStaff),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "same-origin",
-    })
-      .then(
-        (response) => {
-          if (response.ok) {
-            return response;
-          } else {
-            var error = new Error(
-              "Error " + response.status + ": " + response.statusText
-            );
-            error.response = response;
-            throw error;
-          }
-        },
-        (error) => {
+  dispatch(staffsLoading(true));
+  console.log(newStaff);
+  dispatch(addStaff(newStaff));
+  return fetch(baseUrl + "staffs", {
+    method: "POST",
+    body: JSON.stringify(newStaff),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
           throw error;
         }
-      )
-      .then((response) => response.json())
-      .then((response) => dispatch(addStaff(response)))
-      .catch((error) => {
-        console.log("post staffs", error.message);
-        alert("Your comment could not be posted\nError: " + error.message);
-      });
-  };
+      },
+      (error) => {
+        throw error;
+      }
+    )
+    .then((response) => response.json())
+    .then((response) => dispatch(addStaffs(response)))
+    .catch((error) => {
+      console.log("post staffs", error.message);
+      alert("Your staff could not be posted\nError: " + error.message);
+    });
+};
 
 export const fetchStaffs = () => (dispatch) => {
+  dispatch(staffsLoading(true));
   fetch(baseUrl + "staffs")
     .then(
       (response) => {
@@ -77,7 +81,36 @@ export const staffsFailed = (errmess) => ({
   payload: errmess,
 });
 
+// export const deleteStaff = (staffId) => (dispatch) => {
+//   return fetch(baseUrl + "staffs", {
+//     method: "DELETE",
+//   })
+//     .then(
+//       (response) => {
+//         if (response.ok) {
+//           return response;
+//         } else {
+//           var error = new Error(
+//             "Error " + response.status + ": " + response.statusText
+//           );
+//           error.response = response;
+//           throw error;
+//         }
+//       },
+//       (error) => {
+//         throw error;
+//       }
+//     )
+//     .then((response) => response.json())
+//     .then((response) => dispatch(addStaffs(response)))
+//     .catch((error) => {
+//       console.log("delete staffs", error.message);
+//       alert("Your staff could not be deleted\nError: " + error.message);
+//     });
+// };
+
 export const fetchDepartments = () => (dispatch) => {
+  dispatch(departmentsLoading(true));
   fetch(baseUrl + "departments")
     .then(
       (response) => {
@@ -114,7 +147,8 @@ export const departmentsFailed = (errmess) => ({
 });
 
 export const fetchStaffsSalary = () => (dispatch) => {
-   fetch(baseUrl + "staffsSalary")
+  dispatch(staffsSalaryLoading(true));
+  fetch(baseUrl + "staffsSalary")
     .then(
       (response) => {
         if (response.ok) {

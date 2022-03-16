@@ -11,7 +11,7 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { Form, Control, Errors} from "react-redux-form";
+import { Form, Control, Errors, actions } from "react-redux-form";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { Loading } from "./LoadingComponent";
@@ -29,6 +29,7 @@ class StaffList extends Component {
     this.state = {
       searchKey: "",
       isModalOpen: false,
+      resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
     this.toggleModal = this.toggleModal.bind(this);
@@ -42,20 +43,26 @@ class StaffList extends Component {
 
   handleAddStaffForm(value) {
     const newStaff = {
-      id: this.props.staffs.staffs.length,
       name: value.name,
       doB: value.doB,
       salaryScale: value.salaryScale,
       startDate: value.startDate,
-      department: value.department,
+      departmentId:
+        value.department === "Sale"
+          ? "Dept01"
+          : value.department === "HR"
+          ? "Dept02"
+          : value.department === "Marketing"
+          ? "Dept03"
+          : value.department === "IT"
+          ? "Dept04"
+          : "Dept05",
       annualLeave: value.annualLeave,
       overTime: value.overTime,
-      image: "/asset/images/alberto.png"
-    }
-   this.props.addStaff(newStaff);
-   this.props.postStaff(newStaff);
-   console.log(this.props.staffs.staffs);
-    this.props.resetAddStaffForm();
+      image: "/assets/images/alberto.png",
+    };
+    this.props.postStaff(newStaff);
+    this.state.resetAddStaffForm();
     this.toggleModal();
   }
 
@@ -75,6 +82,7 @@ class StaffList extends Component {
       return <h4>{this.props.staffs.errMess}</h4>;
     } else {
       const staffList = this.props.staffs.staffs
+        .filter((staff) => staff.name)
         .filter((staff) =>
           staff.name.toLowerCase().includes(this.state.searchKey.toLowerCase())
         )
@@ -121,7 +129,8 @@ class StaffList extends Component {
                     Thêm nhân viên
                   </ModalHeader>
                   <ModalBody>
-                    <Form model="addStaff"
+                    <Form
+                      model="addStaff"
                       onSubmit={(values) => this.handleAddStaffForm(values)}
                     >
                       <Row className="form-group">

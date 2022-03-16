@@ -22,7 +22,6 @@ function StaffInDept({ department, staffs }) {
   } else if (staffs.errMess) {
     return <h4>{staffs.errMess}</h4>;
   } else if (staffs.staffs != null) {
-    console.log(staffs.staffs);
     const Deptdetail = staffs.staffs
       .filter((staff) => staff.departmentId === department.id)
       .map((staff) => (

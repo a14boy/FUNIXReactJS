@@ -13,7 +13,7 @@ import {
   fetchDepartments,
   fetchStaffsSalary,
   addStaff,
-  postStaff
+  postStaff,
 } from "../redux/ActionCreators";
 import { Loading } from "./LoadingComponent";
 import { actions } from "react-redux-form";
@@ -59,7 +59,11 @@ class Main extends Component {
   render() {
     const HomePage = () => {
       return (
-        <StaffList staffs={this.props.staffs} addStaff={this.props.addStaff} postStaff={this.props.postStaff}/>
+        <StaffList
+          staffs={this.props.staffs}
+          addStaff={this.props.addStaff}
+          postStaff={this.props.postStaff}
+        />
       );
     };
 
