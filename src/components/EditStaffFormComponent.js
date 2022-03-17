@@ -1,24 +1,24 @@
 import React from "react";
 import { Button, Row, Col } from "reactstrap";
 import { Form } from "react-redux-form";
-import StaffInfoForm from "./StaffInfoForm";
+import StaffInfoForm from "./StaffInfoFormComponent";
 
-function AddStaffForm(props) {
-    return (
+function EditStaffForm(props) {
+  return (
         <Form
           model="addStaff"
-          onSubmit={(values) => props.handleAddStaffForm(values)}
+          onSubmit={(values) => props.handleEditStaffForm(values)}
         >
           <StaffInfoForm />
           <Row className="form-group">
             <Col sm={{ offset: 4, size: 8 }}>
               <Button color="primary" type="submit">
-                Thêm nhân viên
+                Chỉnh sửa
               </Button>{" "}
-              <Button onClick={props.toggleAddStaffModal}>Hủy bỏ</Button>
+              <Button onClick={props.toggleEditStaffModal}>Hủy bỏ</Button>
             </Col>
           </Row>
         </Form>
   );
 }
-export default AddStaffForm;
+export default EditStaffForm;

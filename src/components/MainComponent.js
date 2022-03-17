@@ -5,7 +5,7 @@ import StaffList from "./StaffListComponent";
 import StaffInfo from "./StaffInfoComponent";
 import Departments from "./DepartmentComponent";
 import Payrolls from "./PayrollComponent";
-import StaffInDept from "./DepartmentDetail";
+import StaffInDept from "./DepartmentDetailComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {

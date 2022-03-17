@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { Loading } from "./LoadingComponent";
 import { FadeTransform } from "react-animation-components";
-import EditStaffForm from "./EditStaffForm";
-import DelEditStaff from "./DelEditStaff";
-import AddStaffForm from "./AddStaffForm";
+import EditStaffForm from "./EditStaffFormComponent";
+import DelEditStaff from "./DelEditStaffBtnComponent";
+import AddStaffForm from "./AddStaffFormComponent";
 
 class StaffList extends Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class StaffList extends Component {
       isAddStaffModalOpen: false,
       isShow: false,
       isEditFormOpen: false,
+      pickedStaff: [],
       resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
@@ -36,16 +37,19 @@ class StaffList extends Component {
     this.handleAddStaffForm = this.handleAddStaffForm.bind(this);
     this.handleEditStaffForm = this.handleEditStaffForm.bind(this);
   }
-  
+
   showEditDeleteBtn() {
     this.setState({
       isShow: !this.state.isShow,
     });
   }
-  showEditStaffForm() {
+  showEditStaffForm(staff) {
     this.toggleEditStaffModal();
+    this.setState({
+      pickedStaff: staff,
+    });
   }
-  
+
   toggleAddStaffModal() {
     this.setState({
       isAddStaffModalOpen: !this.state.isAddStaffModalOpen,
@@ -81,8 +85,28 @@ class StaffList extends Component {
     this.state.resetAddStaffForm();
     this.toggleAddStaffModal();
   }
-  handleEditStaffForm(staff) {
-    console.log();
+  handleEditStaffForm(editValue) {
+    let editStaff = this.state.pickedStaff;
+    console.log(editValue);
+    switch (true) {
+      case editValue.name !== editStaff.name:
+         editStaff.name = editValue.name ;
+      case editValue.doB !== editStaff.doB:
+        editStaff.doB = editValue.doB;
+      case editValue.salaryScale !== editStaff.salaryScale:
+        editStaff.salaryScale = editValue.salaryScale;
+      case editValue.startDate !== editStaff.startDate:
+        editStaff.startDate = editValue.startDate;
+      case editValue.department !== editStaff.department:
+        editStaff.department = editValue.department;
+      case editValue.annualLeave !== editStaff.annualLeave:
+        editStaff.annualLeave = editValue.annualLeave;
+      case editValue.overTime !== editStaff.overTime:
+        editStaff.overTime = editValue.overTime;
+      default:
+        this.props.editStaff(editStaff);
+    }
+
   }
 
   render() {
@@ -116,7 +140,7 @@ class StaffList extends Component {
               >
                 <DelEditStaff
                   isShow={this.state.isShow}
-                  showEditStaffForm={(staff) => this.showEditStaffForm(staff)}
+                  showEditStaffForm={() => this.showEditStaffForm(staff)}
                   handleDel={() => this.props.deleteStaff(staff.id)}
                 />
                 <Link to={`/stafflist/${staff.id}`}>
