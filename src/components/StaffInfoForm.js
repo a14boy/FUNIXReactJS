@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Label, Row, Col } from "reactstrap";
-import { Form, Control, Errors } from "react-redux-form";
+import { Label, Row, Col } from "reactstrap";
+import { Control, Errors } from "react-redux-form";
 
-function StaffInfoForm(props) {
+function StaffInfoForm() {
   const required = (val) => val && val.length;
   const maxLength = (len) => (val) => !val || val.length <= len;
   const minLength = (len) => (val) => val && val.length >= len;

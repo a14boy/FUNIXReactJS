@@ -5,23 +5,17 @@ import {
   CardImg,
   CardText,
   Modal,
-  Label,
-  Row,
-  Col,
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { Form, Control, Errors, actions } from "react-redux-form";
+import { actions } from "react-redux-form";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { Loading } from "./LoadingComponent";
 import { FadeTransform } from "react-animation-components";
+import EditStaffForm from "./EditStaffForm";
 import DelEditStaff from "./DelEditStaff";
-
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !val || val.length <= len;
-const minLength = (len) => (val) => val && val.length >= len;
-const isNumber = (val) => !isNaN(Number(val));
+import AddStaffForm from "./AddStaffForm";
 
 class StaffList extends Component {
   constructor(props) {
@@ -29,28 +23,40 @@ class StaffList extends Component {
 
     this.state = {
       searchKey: "",
-      isModalOpen: false,
+      isAddStaffModalOpen: false,
       isShow: false,
+      isEditFormOpen: false,
       resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
-    this.toggleModal = this.toggleModal.bind(this);
+    this.showEditDeleteBtn = this.showEditDeleteBtn.bind(this);
+    this.showEditStaffForm = this.showEditStaffForm.bind(this);
+    this.toggleAddStaffModal = this.toggleAddStaffModal.bind(this);
+    this.toggleEditStaffModal = this.toggleEditStaffModal.bind(this);
     this.handleAddStaffForm = this.handleAddStaffForm.bind(this);
-    this.toggleShow = this.toggleShow.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditStaffForm = this.handleEditStaffForm.bind(this);
   }
-  toggleShow() {
+  
+  showEditDeleteBtn() {
     this.setState({
       isShow: !this.state.isShow,
     });
   }
-
-  toggleModal() {
+  showEditStaffForm() {
+    this.toggleEditStaffModal();
+  }
+  
+  toggleAddStaffModal() {
     this.setState({
-      isModalOpen: !this.state.isModalOpen,
+      isAddStaffModalOpen: !this.state.isAddStaffModalOpen,
     });
   }
 
+  toggleEditStaffModal() {
+    this.setState({
+      isEditFormOpen: !this.state.isEditFormOpen,
+    });
+  }
   handleAddStaffForm(value) {
     const newStaff = {
       name: value.name,
@@ -73,10 +79,10 @@ class StaffList extends Component {
     };
     this.props.postStaff(newStaff);
     this.state.resetAddStaffForm();
-    this.toggleModal();
+    this.toggleAddStaffModal();
   }
-  handleEdit(staff) {
-    this.toggleModal();
+  handleEditStaffForm(staff) {
+    console.log();
   }
 
   render() {
@@ -110,7 +116,7 @@ class StaffList extends Component {
               >
                 <DelEditStaff
                   isShow={this.state.isShow}
-                  handleEdit={this.handleEdit}
+                  showEditStaffForm={(staff) => this.showEditStaffForm(staff)}
                   handleDel={() => this.props.deleteStaff(staff.id)}
                 />
                 <Link to={`/stafflist/${staff.id}`}>
@@ -129,213 +135,57 @@ class StaffList extends Component {
             <div className="col-12 col-sm-6">
               <h3>
                 Nhân viên{" "}
-                <Button outline onClick={this.toggleModal}>
+                <Button outline onClick={this.toggleAddStaffModal}>
                   <span className="fa fa-plus fa-lg"></span>
                 </Button>
-                <Button outline onClick={this.toggleShow}>
+                <Button outline onClick={this.showEditDeleteBtn}>
                   <span className="fa fa-pencil fa-lg"></span>
                 </Button>
                 <Modal
-                  isOpen={this.state.isModalOpen}
-                  toggle={this.toggleModal}
+                  isOpen={this.state.isAddStaffModalOpen}
+                  toggle={this.toggleAddStaffModal}
                 >
                   <ModalHeader
                     close={
-                      <button className="close" onClick={this.toggleModal}>
+                      <button
+                        className="close"
+                        onClick={this.toggleAddStaffModal}
+                      >
                         ×
                       </button>
                     }
-                    toggle={this.toggleModal}
+                    toggle={this.toggleAddStaffModal}
                   >
                     Thêm nhân viên
                   </ModalHeader>
                   <ModalBody>
-                    <Form
-                      model="addStaff"
-                      onSubmit={(values) => this.handleAddStaffForm(values)}
-                    >
-                      <Row className="form-group">
-                        <Label htmlFor="name" md={4}>
-                          Tên nhân viên
-                        </Label>
-                        <Col md={8}>
-                          <Control.text
-                            model=".name"
-                            id="name"
-                            name="name"
-                            placeholder="Họ tên"
-                            className="form-control"
-                            validators={{
-                              required,
-                              minLength: minLength(4),
-                              maxLength: maxLength(20),
-                            }}
-                          />
-                          <Errors
-                            model=".name"
-                            className="text-danger"
-                            show="touched"
-                            messages={{
-                              required: "Hãy Nhập vào tên nhân viên ",
-                              minLength: "Tên phải có nhiều hơn 4 ký tự",
-                              maxLength: "Tên phải có ít hơn 20 ký tự",
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="doB" md={4}>
-                          Ngày sinh
-                        </Label>
-                        <Col md={8}>
-                          <Control
-                            model=".doB"
-                            id="doB"
-                            name="doB"
-                            type="date"
-                            className="form-control"
-                            validators={{ required }}
-                          />
-                          <Errors
-                            model=".doB"
-                            className="text-danger"
-                            show="touched"
-                            messages={{ required: "Hãy nhập vào ngày sinh" }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="salaryScale" md={4}>
-                          Hệ số lương
-                        </Label>
-                        <Col md={8}>
-                          <Control.text
-                            model=".salaryScale"
-                            id="salaryScale"
-                            name="salaryScale"
-                            defaultValue="1"
-                            className="form-control"
-                            validators={{
-                              required,
-                              isNumber,
-                            }}
-                          />
-                          <Errors
-                            model=".salaryScale"
-                            className="text-danger"
-                            show="touched"
-                            messages={{
-                              required: "Hãy nhập vào hệ số lương ",
-                              isNumber: "Hệ số lương phải là một số",
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="startDate" md={4}>
-                          Ngày vào công ty
-                        </Label>
-                        <Col md={8}>
-                          <Control
-                            model=".startDate"
-                            id="startDate"
-                            name="startDate"
-                            type="date"
-                            className="form-control"
-                            validators={{ required }}
-                          />
-                          <Errors
-                            model=".startDate"
-                            className="text-danger"
-                            show="touched"
-                            messages={{
-                              required: "Hãy nhập ngày vào công ty",
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="department" md={4}>
-                          Phòng ban
-                        </Label>
-                        <Col md={8}>
-                          <Control.select
-                            model=".department"
-                            id="department"
-                            name="department"
-                            defaultValue="Finance"
-                          >
-                            <option value="Finance">Finance</option>
-                            <option value="Sale">Sale</option>
-                            <option value="HR">HR</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="IT">IT</option>
-                          </Control.select>
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="annualLeave" md={4}>
-                          Số ngày nghỉ còn lại
-                        </Label>
-                        <Col md={8}>
-                          <Control.text
-                            model=".annualLeave"
-                            id="annualLeave"
-                            name="annualLeave"
-                            defaultValue="0"
-                            className="form-control"
-                            validators={{
-                              required,
-                              isNumber,
-                            }}
-                          />
-                          <Errors
-                            model=".annualLeave"
-                            className="text-danger"
-                            show="touched"
-                            messages={{
-                              required: "Hãy nhập số ngày nghỉ thường niên ",
-                              isNumber: "Số ngày nghỉ thường niên là một số",
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Label htmlFor="overTime" md={4}>
-                          Số ngày đã làm thêm
-                        </Label>
-                        <Col md={8}>
-                          <Control.text
-                            model=".overTime"
-                            id="overTime"
-                            name="overTime"
-                            defaultValue="0"
-                            className="form-control"
-                            validators={{
-                              required,
-                              isNumber,
-                            }}
-                          />
-                          <Errors
-                            model=".overTime"
-                            className="text-danger"
-                            show="touched"
-                            messages={{
-                              required: "Hãy nhập vào số ngày đã làm thêm ",
-                              isNumber: "Số ngày làm thêm là một số",
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="form-group">
-                        <Col sm={{ offset: 4, size: 8 }}>
-                          <Button color="primary" type="submit">
-                            Thêm vào danh sách
-                          </Button>{" "}
-                          <Button onClick={this.toggleModal}>Hủy bỏ</Button>
-                        </Col>
-                      </Row>
-                    </Form>
+                    <AddStaffForm
+                      toggleAddStaffModal={this.toggleAddStaffModal}
+                      handleAddStaffForm={this.handleAddStaffForm}
+                    />
+                  </ModalBody>
+                </Modal>
+                <Modal
+                  isOpen={this.state.isEditFormOpen}
+                  toggle={this.toggleEditStaffModal}
+                >
+                  <ModalHeader
+                    close={
+                      <button
+                        className="close"
+                        onClick={this.toggleEditStaffModal}
+                      >
+                        ×
+                      </button>
+                    }
+                  >
+                    Sửa thông tin nhân viên
+                  </ModalHeader>
+                  <ModalBody>
+                    <EditStaffForm
+                      toggleEditStaffModal={this.toggleEditStaffModal}
+                      handleEditStaffForm={this.handleEditStaffForm}
+                    />
                   </ModalBody>
                 </Modal>
               </h3>

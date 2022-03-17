@@ -7,7 +7,7 @@ function DelEditStaff(props) {
       <div className="col-12">
         <div className="row">
           <Button
-            onClick={props.handleEdit}
+            onClick={props.showEditStaffForm}
             outline
             name="edit Btn"
             color="info"
