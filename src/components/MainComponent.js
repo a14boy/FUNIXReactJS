@@ -14,6 +14,8 @@ import {
   fetchStaffsSalary,
   addStaff,
   postStaff,
+  deleteStaff,
+  editStaff,
 } from "../redux/ActionCreators";
 import { Loading } from "./LoadingComponent";
 import { actions } from "react-redux-form";
@@ -46,6 +48,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchStaffsSalary: () => {
     dispatch(fetchStaffsSalary());
   },
+  deleteStaff: (staffId) => dispatch(deleteStaff(staffId)),
+  editStaff: (staff) => dispatch(editStaff(staff)),
 });
 
 class Main extends Component {
@@ -53,8 +57,6 @@ class Main extends Component {
     this.props.fetchStaffs();
     this.props.fetchDepartments();
     this.props.fetchStaffsSalary();
-    this.props.addStaff();
-    this.props.postStaff();
   }
   render() {
     const HomePage = () => {
@@ -63,6 +65,8 @@ class Main extends Component {
           staffs={this.props.staffs}
           addStaff={this.props.addStaff}
           postStaff={this.props.postStaff}
+          deleteStaff={this.props.deleteStaff}
+          editStaff={this.props.editStaff}
         />
       );
     };

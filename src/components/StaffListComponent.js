@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { Loading } from "./LoadingComponent";
 import { FadeTransform } from "react-animation-components";
+import DelEditStaff from "./DelEditStaff";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -29,12 +30,21 @@ class StaffList extends Component {
     this.state = {
       searchKey: "",
       isModalOpen: false,
+      isShow: false,
       resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
     this.toggleModal = this.toggleModal.bind(this);
     this.handleAddStaffForm = this.handleAddStaffForm.bind(this);
+    this.toggleShow = this.toggleShow.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
+  toggleShow() {
+    this.setState({
+      isShow: !this.state.isShow,
+    });
+  }
+
   toggleModal() {
     this.setState({
       isModalOpen: !this.state.isModalOpen,
@@ -65,6 +75,9 @@ class StaffList extends Component {
     this.state.resetAddStaffForm();
     this.toggleModal();
   }
+  handleEdit(staff) {
+    this.toggleModal();
+  }
 
   render() {
     const onSubmitSearch = (key) => {
@@ -89,19 +102,24 @@ class StaffList extends Component {
         .map((staff) => {
           return (
             <div key={staff.id} className="col-6 col-md-4 col-lg-2 mb-3">
-              <Link to={`/stafflist/${staff.id}`}>
-                <FadeTransform
-                  in
-                  transformProps={{
-                    exitTransform: "scale(0.5) translateY(-50%)",
-                  }}
-                >
+              <FadeTransform
+                in
+                transformProps={{
+                  exitTransform: "scale(0.5) translateY(-50%)",
+                }}
+              >
+                <DelEditStaff
+                  isShow={this.state.isShow}
+                  handleEdit={this.handleEdit}
+                  handleDel={() => this.props.deleteStaff(staff.id)}
+                />
+                <Link to={`/stafflist/${staff.id}`}>
                   <Card>
                     <CardImg width="100%" src={staff.image} alt={staff.name} />
                     <CardText className="text-center">{staff.name}</CardText>
                   </Card>
-                </FadeTransform>
-              </Link>
+                </Link>
+              </FadeTransform>
             </div>
           );
         });
@@ -113,6 +131,9 @@ class StaffList extends Component {
                 Nhân viên{" "}
                 <Button outline onClick={this.toggleModal}>
                   <span className="fa fa-plus fa-lg"></span>
+                </Button>
+                <Button outline onClick={this.toggleShow}>
+                  <span className="fa fa-pencil fa-lg"></span>
                 </Button>
                 <Modal
                   isOpen={this.state.isModalOpen}

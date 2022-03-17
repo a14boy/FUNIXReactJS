@@ -35,8 +35,8 @@ export const postStaff = (newStaff) => (dispatch) => {
     )
     .then((response) => response.json())
     .then((response) => dispatch(addStaffs(response)))
-    .then((response) => dispatch(fetchStaffsSalary(response)))
-    .then((response) => dispatch(fetchDepartments(response)))
+    .then(() => dispatch(fetchStaffsSalary()))
+    .then(() => dispatch(fetchDepartments()))
     .catch((error) => {
       console.log("post staffs", error.message);
       alert("Your staff could not be posted\nError: " + error.message);
@@ -83,7 +83,8 @@ export const staffsFailed = (errmess) => ({
 });
 
 export const deleteStaff = (staffId) => (dispatch) => {
-  return fetch(baseUrl + "staffs", {
+  dispatch(staffsLoading(true));
+  return fetch(baseUrl + "staffs/" + staffId, {
     method: "DELETE",
   })
     .then(
@@ -104,9 +105,45 @@ export const deleteStaff = (staffId) => (dispatch) => {
     )
     .then((response) => response.json())
     .then((response) => dispatch(addStaffs(response)))
+    .then(() => dispatch(fetchStaffsSalary()))
+    .then(() => dispatch(fetchDepartments()))
     .catch((error) => {
       console.log("delete staffs", error.message);
       alert("Your staff could not be deleted\nError: " + error.message);
+    });
+};
+export const editStaff = (staff) => (dispatch) => {
+  dispatch(staffsLoading(true));
+  return fetch(baseUrl + "staffs", {
+    method: "PATCH",
+    body: JSON.stringify(staff),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        throw error;
+      }
+    )
+    .then((response) => response.json())
+    .then((response) => dispatch(addStaffs(response)))
+    .then(() => dispatch(fetchStaffsSalary()))
+    .then(() => dispatch(fetchDepartments()))
+    .catch((error) => {
+      console.log("post staffs", error.message);
+      alert("Your staff could not be posted\nError: " + error.message);
     });
 };
 
