@@ -53,8 +53,6 @@ class Main extends Component {
     this.props.fetchStaffs();
     this.props.fetchDepartments();
     this.props.fetchStaffsSalary();
-    this.props.addStaff();
-    this.props.postStaff();
   }
   render() {
     const HomePage = () => {

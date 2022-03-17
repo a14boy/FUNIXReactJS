@@ -82,34 +82,6 @@ export const staffsFailed = (errmess) => ({
   payload: errmess,
 });
 
-export const deleteStaff = (staffId) => (dispatch) => {
-  return fetch(baseUrl + "staffs", {
-    method: "DELETE",
-  })
-    .then(
-      (response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      },
-      (error) => {
-        throw error;
-      }
-    )
-    .then((response) => response.json())
-    .then((response) => dispatch(addStaffs(response)))
-    .catch((error) => {
-      console.log("delete staffs", error.message);
-      alert("Your staff could not be deleted\nError: " + error.message);
-    });
-};
-
 export const fetchDepartments = () => (dispatch) => {
   dispatch(departmentsLoading(true));
   fetch(baseUrl + "departments")
