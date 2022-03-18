@@ -26,7 +26,7 @@ class StaffList extends Component {
       isAddStaffModalOpen: false,
       isShow: false,
       isEditFormOpen: false,
-      pickedStaff: [],
+      pickedStaff: {},
       resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
@@ -85,28 +85,10 @@ class StaffList extends Component {
     this.state.resetAddStaffForm();
     this.toggleAddStaffModal();
   }
-  handleEditStaffForm(editValue) {
-    let editStaff = this.state.pickedStaff;
-    console.log(editValue);
-    switch (true) {
-      case editValue.name !== editStaff.name:
-         editStaff.name = editValue.name ;
-      case editValue.doB !== editStaff.doB:
-        editStaff.doB = editValue.doB;
-      case editValue.salaryScale !== editStaff.salaryScale:
-        editStaff.salaryScale = editValue.salaryScale;
-      case editValue.startDate !== editStaff.startDate:
-        editStaff.startDate = editValue.startDate;
-      case editValue.department !== editStaff.department:
-        editStaff.department = editValue.department;
-      case editValue.annualLeave !== editStaff.annualLeave:
-        editStaff.annualLeave = editValue.annualLeave;
-      case editValue.overTime !== editStaff.overTime:
-        editStaff.overTime = editValue.overTime;
-      default:
-        this.props.editStaff(editStaff);
-    }
-
+  handleEditStaffForm(editedValue) {
+    let editedStaff = Object.assign(this.state.pickedStaff, editedValue);
+    this.props.editStaff(editedStaff);
+    this.resetAddStaffForm();
   }
 
   render() {
@@ -209,6 +191,7 @@ class StaffList extends Component {
                     <EditStaffForm
                       toggleEditStaffModal={this.toggleEditStaffModal}
                       handleEditStaffForm={this.handleEditStaffForm}
+                      staff={this.state.pickedStaff}
                     />
                   </ModalBody>
                 </Modal>

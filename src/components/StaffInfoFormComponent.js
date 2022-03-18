@@ -2,7 +2,7 @@ import React from "react";
 import { Label, Row, Col } from "reactstrap";
 import { Control, Errors } from "react-redux-form";
 
-function StaffInfoForm() {
+function StaffInfoForm(staff) {
   const required = (val) => val && val.length;
   const maxLength = (len) => (val) => !val || val.length <= len;
   const minLength = (len) => (val) => val && val.length >= len;
@@ -18,7 +18,7 @@ function StaffInfoForm() {
             model=".name"
             id="name"
             name="name"
-            placeholder="Họ tên"
+            defaultValue={staff.name}
             className="form-control"
             validators={{
               required,
@@ -48,6 +48,7 @@ function StaffInfoForm() {
             id="doB"
             name="doB"
             type="date"
+            defaultValue={staff.doB}
             className="form-control"
             validators={{ required }}
           />
@@ -68,7 +69,7 @@ function StaffInfoForm() {
             model=".salaryScale"
             id="salaryScale"
             name="salaryScale"
-            defaultValue="1"
+            defaultValue={staff.salaryScale}
             className="form-control"
             validators={{
               required,
@@ -96,6 +97,7 @@ function StaffInfoForm() {
             id="startDate"
             name="startDate"
             type="date"
+            defaultValue={staff.startDate}
             className="form-control"
             validators={{ required }}
           />
@@ -118,7 +120,7 @@ function StaffInfoForm() {
             model=".department"
             id="department"
             name="department"
-            defaultValue="Finance"
+            defaultValue={staff.department}
           >
             <option value="Finance">Finance</option>
             <option value="Sale">Sale</option>
@@ -137,7 +139,7 @@ function StaffInfoForm() {
             model=".annualLeave"
             id="annualLeave"
             name="annualLeave"
-            defaultValue="0"
+            defaultValue={staff.annualLeave}
             className="form-control"
             validators={{
               required,
@@ -164,7 +166,7 @@ function StaffInfoForm() {
             model=".overTime"
             id="overTime"
             name="overTime"
-            defaultValue="0"
+            defaultValue={staff.overTime}
             className="form-control"
             validators={{
               required,

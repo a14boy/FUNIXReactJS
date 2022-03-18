@@ -5,20 +5,20 @@ import StaffInfoForm from "./StaffInfoFormComponent";
 
 function EditStaffForm(props) {
   return (
-        <Form
-          model="addStaff"
-          onSubmit={(values) => props.handleEditStaffForm(values)}
-        >
-          <StaffInfoForm />
-          <Row className="form-group">
-            <Col sm={{ offset: 4, size: 8 }}>
-              <Button color="primary" type="submit">
-                Chỉnh sửa
-              </Button>{" "}
-              <Button onClick={props.toggleEditStaffModal}>Hủy bỏ</Button>
-            </Col>
-          </Row>
-        </Form>
+    <Form
+      model="addStaff"
+      onSubmit={(value) => props.handleEditStaffForm(value)}
+    >
+      <StaffInfoForm />
+      <Row className="form-group">
+        <Col sm={{ offset: 4, size: 8 }}>
+          <Button color="primary" type="submit">
+            Chỉnh sửa
+          </Button>{" "}
+          <Button onClick={props.toggleEditStaffModal}>Hủy bỏ</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 export default EditStaffForm;
