@@ -128,7 +128,7 @@ class Main extends Component {
             exact
             path="/stafflist"
             component={() => (
-              <HomePage resetAddStaffForm={this.props.resetAddStaffForm} />
+              <HomePage resetAddStaffForm={this.props.resetAddStaffForm()} />
             )}
           />
           <Route path="/stafflist/:id" component={StaffWithId} />

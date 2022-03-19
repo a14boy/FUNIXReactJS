@@ -8,7 +8,6 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { actions } from "react-redux-form";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBarComponent";
 import { Loading } from "./LoadingComponent";
@@ -27,7 +26,6 @@ class StaffList extends Component {
       isShow: false,
       isEditFormOpen: false,
       pickedStaff: {},
-      resetAddStaffForm: () => actions.reset("addStaff"),
     };
 
     this.showEditDeleteBtn = this.showEditDeleteBtn.bind(this);
@@ -82,13 +80,12 @@ class StaffList extends Component {
       image: "/assets/images/alberto.png",
     };
     this.props.postStaff(newStaff);
-    this.state.resetAddStaffForm();
+    this.props.resetAddStaffForm;
     this.toggleAddStaffModal();
   }
   handleEditStaffForm(editedValue) {
     let editedStaff = Object.assign(this.state.pickedStaff, editedValue);
     this.props.editStaff(editedStaff);
-    this.resetAddStaffForm();
   }
 
   render() {
